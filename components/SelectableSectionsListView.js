@@ -117,7 +117,8 @@ export default class SelectableSectionsListView extends Component {
 
       sectionHeaderHeight = index * sectionHeaderHeight;
       y += numcells * cellHeight + sectionHeaderHeight;
-      const maxY = this.totalHeight - this.containerHeight + headerHeight;
+      let maxY = this.totalHeight - this.containerHeight + headerHeight;
+      maxY = maxY >= 0 ? maxY : 0;
       y = y > maxY ? maxY : y;
 
       this.refs.listview.scrollTo({ x:0, y, animated: true });
