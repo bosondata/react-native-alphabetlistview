@@ -1,29 +1,4 @@
-## I'd like to transfer this repo (and npm module), since I have no time to maintain. Anyone that have interest in please open an issue to tell me.
-
 ## Based on johanneslumpe's react-native-selectablesectionlistview, thanks to him for the awesome component!      
-99% of this component was done by @johanneslumpe, and I just replaced the deprecated API for newer react native version(>=0.13), and used a little trick to support both iOS and Android platforms.      
-    
-    
-You can find this component on npm:   
-```
-npm install react-native-alphabetlistview  --save  
-```
-
-## Changelog
-
-- **v2.0.0**  
-  + Support RN 0.25+.(Thanks [@mbernardeau](https://github.com/mbernardeau)). If you have problem with an earlier version of RN, try v0.1.3.
-    
-    
-
-
-# Following is the original readme
-
-A Listview with a sidebar to directly jump to sections.
-
-Please file issues for missing features or bugs.
-
-I apologize for the bad name.
 
 ![How it looks](http://lum.pe/sectionlistview.gif)
 
