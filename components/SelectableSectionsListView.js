@@ -2,8 +2,7 @@
 /* jshint esnext: true */
 
 import React, {
-  Component,
-  PropTypes,
+  Component
 } from 'react';
 import ReactNative, {
   ListView,
@@ -11,6 +10,7 @@ import ReactNative, {
   View,
   NativeModules,
 } from 'react-native';
+import PropTypes from 'prop-types';
 import merge from 'merge';
 
 import SectionHeader from './SectionHeader';

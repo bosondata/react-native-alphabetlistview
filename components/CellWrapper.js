@@ -1,12 +1,12 @@
 'use strict';
 
 import React, {
-  Component,
-  PropTypes
+  Component
 } from 'react';
 import ReactNative, {
   View
 } from 'react-native';
+import PropTypes from 'prop-types';
 
 export default class CellWrapper extends Component {
   componentDidMount() {

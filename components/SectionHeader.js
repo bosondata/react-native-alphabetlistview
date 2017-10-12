@@ -1,8 +1,7 @@
 'use strict';
 
 import React, {
-  Component,
-  PropTypes
+  Component
 } from 'react';
 import ReactNative, {
   StyleSheet,
@@ -10,6 +9,7 @@ import ReactNative, {
   Text,
   NativeModules
 } from 'react-native';
+import PropTypes from 'prop-types';
 
 const { UIManager } = NativeModules;
 
