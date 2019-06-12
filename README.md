@@ -105,9 +105,11 @@ The height of the section header component
 `number` **required**  
 The height of the cell component
 
-#### useDynamicHeights
-`boolean`  
-Whether to determine the y position to scroll to by calculating header and cell heights or by using the UIManager to measure the position of the destination element. Defaults to `false`  
+~~useDynamicHeights~~
+
+~~`boolean`
+Whether to determine the y position to scroll to by calculating header and cell heights or by using the UIManager to measure the position of the destination element. Defaults to `false`~~
+
 **This is an experimental feature. For it to work properly you will most likely have to experiment with different values for `scrollRenderAheadDistance`, depending on the size of your data set.**
 
 #### updateScrollState
