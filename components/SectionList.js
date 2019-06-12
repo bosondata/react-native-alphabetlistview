@@ -1,8 +1,6 @@
 'use strict';
 
-import React, {
-  Component
-} from 'react';
+import React, { Component } from 'react';
 import ReactNative, {
   StyleSheet,
   View,
@@ -40,29 +38,13 @@ export default class SectionList extends Component {
   }
 
   detectAndScrollToSection(e) {
-    const ev = e.nativeEvent.touches[0];
-    //var rect = {width:1, height:1, x: ev.locationX, y: ev.locationY};
-    //var rect = [ev.locationX, ev.locationY];
-
-    //UIManager.measureViewsInRect(rect, e.target, noop, (frames) => {
-    //  if (frames.length) {
-    //    var index = frames[0].index;
-    //    if (this.lastSelectedIndex !== index) {
-    //      this.lastSelectedIndex = index;
-    //      this.onSectionSelect(this.props.sections[index], true);
-    //    }
-    //  }
-    //});
-    //UIManager.findSubviewIn(e.target, rect, viewTag => {
-      //this.onSectionSelect(view, true);
-    //})
-    const targetY = ev.pageY;
-    const { y, width, height } = this.measure;
-    if(!y || targetY < y){
+    const ev = e.nativeEvent.touches[0]; 
+    const { height } = this.measure;
+    const index = (Math.floor(ev.locationY / height));
+    if (index >= this.props.sections.length || index < 0) {
       return;
     }
-    let index = Math.floor((targetY - y) / height);
-    index = Math.min(index, this.props.sections.length - 1);
+
     if (this.lastSelectedIndex !== index && this.props.data[this.props.sections[index]].length) {
       this.lastSelectedIndex = index;
       this.onSectionSelect(this.props.sections[index], true);
@@ -74,13 +56,12 @@ export default class SectionList extends Component {
 
     this.measureTimer = setTimeout(() => {
       sectionItem.measure((x, y, width, height, pageX, pageY) => {
-        //console.log([x, y, width, height, pageX, pageY]);
         this.measure = {
           y: pageY,
           width,
           height
         };
-      })
+      });
     }, 0);
   }
 
@@ -102,11 +83,9 @@ export default class SectionList extends Component {
     const sections = this.props.sections.map((section, index) => {
       const title = this.props.getSectionListTitle ?
         this.props.getSectionListTitle(section) :
-        section;
+        section.title;
 
-      const textStyle = this.props.data[section].length ?
-        styles.text :
-        styles.inactivetext;
+      const textStyle = this.props.data.length ? styles.text : styles.inactivetext;
 
       const child = SectionComponent ?
         <SectionComponent
@@ -118,22 +97,11 @@ export default class SectionList extends Component {
           <Text style={textStyle}>{title}</Text>
         </View>;
 
-      //if(index){
-        return (
-          <View key={index} ref={'sectionItem' + index} pointerEvents="none">
-            {child}
-          </View>
-        );
-      //}
-      //else{
-      //  return (
-      //    <View key={index} ref={'sectionItem' + index} pointerEvents="none"
-      //          onLayout={e => {console.log(e.nativeEvent.layout)}}>
-      //      {child}
-      //    </View>
-      //  );
-      //
-      //}
+      return (
+        <View key={index} ref={'sectionItem' + index} pointerEvents="none">
+          {child}
+        </View>
+      );
     });
 
     return (
@@ -151,6 +119,10 @@ export default class SectionList extends Component {
 }
 
 SectionList.propTypes = {
+  /**
+   * Section Data
+   */
+  data: PropTypes.array,
 
   /**
    * A component to render for each section item
