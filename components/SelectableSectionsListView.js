@@ -12,7 +12,6 @@ import ReactNative, {
   SectionList as SectionListNative
 } from 'react-native';
 import PropTypes from 'prop-types';
-import merge from 'merge';
 
 import SectionHeader from './SectionHeader';
 import SectionList from './SectionList';
@@ -184,7 +183,7 @@ export default class SelectableSectionsListView extends Component {
 
   formatDataProps() {
     const { data } = this.props;
-    return Object.keys(data).map((key) => ({
+    return Object.keys(data).sort().map((key) => ({
       title: key,
       data: data[key]
     }));
@@ -193,12 +192,6 @@ export default class SelectableSectionsListView extends Component {
   render() {
     let sectionList;
     let sections = this.formatDataProps();
-
-    // let sections = [
-    //   {title: 'Title1', data: ['item1', 'item2']},
-    //   {title: 'Title2', data: ['item3', 'item4']},
-    //   {title: 'Title3', data: ['item5', 'item6']},
-    // ];
 
     sectionList = !this.props.hideSectionList ?
       <SectionList
