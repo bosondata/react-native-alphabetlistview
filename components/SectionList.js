@@ -23,10 +23,13 @@ export default class SectionList extends Component {
     this.resetSection = this.resetSection.bind(this);
     this.detectAndScrollToSection = this.detectAndScrollToSection.bind(this);
     this.lastSelectedIndex = null;
+    this.state = {
+      measure: null
+    };
   }
 
-  onSectionSelect(sectionId, fromTouch) {
-    this.props.onSectionSelect && this.props.onSectionSelect(sectionId);
+  onSectionSelect(section, fromTouch) {
+    this.props.onSectionSelect && this.props.onSectionSelect(section);
 
     if (!fromTouch) {
       this.lastSelectedIndex = null;
@@ -39,13 +42,14 @@ export default class SectionList extends Component {
 
   detectAndScrollToSection(e) {
     const ev = e.nativeEvent.touches[0]; 
-    const { height } = this.measure;
-    const index = (Math.floor(ev.locationY / height));
+    const { pageY, height } = this.state.measure;
+    const index = (Math.floor((ev.pageY - pageY) / height));
+
     if (index >= this.props.sections.length || index < 0) {
       return;
     }
-
-    if (this.lastSelectedIndex !== index && this.props.data[this.props.sections[index]].length) {
+    
+    if (this.lastSelectedIndex !== index && this.props.data[index].data.length) {
       this.lastSelectedIndex = index;
       this.onSectionSelect(this.props.sections[index], true);
     }
@@ -56,11 +60,13 @@ export default class SectionList extends Component {
 
     this.measureTimer = setTimeout(() => {
       sectionItem.measure((x, y, width, height, pageX, pageY) => {
-        this.measure = {
-          y: pageY,
-          width,
-          height
-        };
+        this.setState({
+          measure: {
+            pageY,
+            width,
+            height
+          }
+        });
       });
     }, 0);
   }
@@ -94,7 +100,7 @@ export default class SectionList extends Component {
         /> :
         <View
           style={styles.item}>
-          <Text style={textStyle}>{title}</Text>
+          <Text style={[textStyle, this.props.fontStyle]}>{title}</Text>
         </View>;
 
       return (
@@ -148,6 +154,14 @@ SectionList.propTypes = {
    * A style to apply to the section list container
    */
   style: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.object,
+  ]),
+
+  /**
+   * Text font size
+   */
+  fontStyle: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.object,
   ])

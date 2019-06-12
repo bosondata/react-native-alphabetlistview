@@ -99,47 +99,13 @@ export default class SelectableSectionsListView extends Component {
   }
 
   scrollToSection(section) {
-    const index = this.props.data.indexOf(section);
+    let sections = this.formatDataProps();
+    const index = sections.findIndex((sec) => {
+      return sec.title === section.title;
+    });
 
-    // let y = 0;
-    // let headerHeight = this.props.headerHeight || 0;
-    // y += headerHeight;
-
-    // if (!this.props.useDynamicHeights) {
-    //   const cellHeight = this.props.cellHeight;
-    //   let sectionHeaderHeight = this.props.sectionHeaderHeight;
-    //   let keys = Object.keys(this.props.data);
-    //   if (typeof(this.props.compareFunction) === "function") {
-    //     keys = keys.sort(this.props.compareFunction);
-    //   }
-    //   const index = keys.indexOf(section);
-
-    //   let numcells = 0;
-    //   for (var i = 0; i < index; i++) {
-    //     numcells += this.props.data[keys[i]].length;
-    //   }
-
-    //   sectionHeaderHeight = index * sectionHeaderHeight;
-    //   y += numcells * cellHeight + sectionHeaderHeight;
-    //   let maxY = this.totalHeight - this.containerHeight + headerHeight;
-    //   maxY = maxY >= 0 ? maxY : 0;
-    //   y = y > maxY ? maxY : y;
-
-    //   this.refs.listview.scrollTo({ x:0, y, animated: true });
-    // } else {
-    //   // this breaks, if not all of the listview is pre-rendered!
-    //   UIManager.measure(this.cellTagMap[section], (x, y, w, h) => {
-    //     y = y - this.props.sectionHeaderHeight;
-    //     this.refs.listview.scrollTo({ x:0, y, animated: true });
-    //   });
-    // }
-
-    // if (this.props.contentInset) {
-    //   y -= this.props.contentInset.top - headerHeight
-    // }
     let sectionHeaderHeight = this.props.sectionHeaderHeight;
-    this.refs.listview.scrollToLocation({ itemIndex: 0, sectionIndex: index, animated: true, viewOffset: sectionHeaderHeight });
-    
+    this.refs.listview.scrollToLocation({ itemIndex: 0, sectionIndex: index, animated: true, viewOffset: sectionHeaderHeight });    
     this.props.onScrollToSection && this.props.onScrollToSection(section);
   }
 
@@ -225,12 +191,7 @@ export default class SelectableSectionsListView extends Component {
   }
 
   render() {
-    // const { data } = this.props;
-    // const dataIsArray = Array.isArray(data);
     let sectionList;
-    // let renderSectionHeader;
-    // let dataSource;
-
     let sections = this.formatDataProps();
 
     // let sections = [
@@ -251,9 +212,6 @@ export default class SelectableSectionsListView extends Component {
       /> :
       null;
 
-    // const renderSectionHeader = this.renderSectionHeader;
-
-
     const renderFooter = this.props.footer ?
       this.renderFooter :
       this.props.renderFooter;
@@ -262,18 +220,6 @@ export default class SelectableSectionsListView extends Component {
       this.renderHeader :
       this.props.renderHeader;
 
-    // const props = merge({}, this.props, {
-    //   onScroll: this.onScroll,
-    //   onScrollAnimationEnd: this.onScrollAnimationEnd,
-    //   sections: this.props.data,
-    //   renderFooter,
-    //   renderHeader,
-    //   renderItem: this.renderRow,
-    //   renderSectionHeader
-    // });
-
-    // props.style = void 0;
-    console.warn(JSON.stringify(this.props.data));
     return (
       <View ref="view" style={[styles.container, this.props.style]}>
         <SectionListNative
@@ -288,7 +234,7 @@ export default class SelectableSectionsListView extends Component {
           renderSectionHeader={this.renderSectionHeader}
           keyExtractor={(item, index) => index}
           ListFooterComponent={renderFooter}
-          
+          style={void 0}   
         />
         {sectionList}
       </View>
@@ -422,6 +368,10 @@ SelectableSectionsListView.propTypes = {
   /**
    * Styles to pass to the section list container
    */
-  sectionListStyle: stylesheetProp
+  sectionListStyle: stylesheetProp,
 
+  /**
+   * Selector styles
+   */
+  sectionListFontStyle: stylesheetProp
 };
